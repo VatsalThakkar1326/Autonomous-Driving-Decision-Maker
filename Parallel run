@@ -1,0 +1,42 @@
+import subprocess
+import multiprocessing
+import sys
+
+def run_script(script_path, output_queue):
+    """Run the script and send its output to the output queue."""
+    with open(script_path, 'r') as f:
+        script_content = f.read()
+    process = subprocess.Popen(script_content, stdout=subprocess.PIPE, shell=True)
+    for line in process.stdout:
+        output_queue.put(line.decode().strip())
+    process.wait()
+
+# Define the three scripts to run
+scripts = [
+    ('script1.py', 'Script 1'),
+    ('script2.py', 'Script 2'),
+    ('script3.py', 'Script 3')
+]
+
+# Create the output queue
+output_queue = multiprocessing.Queue()
+
+# Run the three scripts in parallel
+processes = []
+for script_path, label in scripts:
+    process = multiprocessing.Process(target=run_script, args=(script_path, output_queue))
+    process.start()
+    processes.append(process)
+
+# Print the output of the three scripts in three columns
+while any(process.is_alive() for process in processes):
+    sys.stdout.write('\033[H\033[J')  # Clear the console
+    for i in range(3):
+        if not output_queue.empty():
+            output = output_queue.get()
+            sys.stdout.write(f'{label}: {output}\t\t')
+    sys.stdout.write('\n')
+
+# Wait for the three scripts to finish
+for process in processes:
+    process.join()
