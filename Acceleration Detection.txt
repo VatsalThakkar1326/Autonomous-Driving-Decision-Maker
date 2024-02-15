@@ -1,0 +1,40 @@
+# Load the saved model
+model_path = "/workspaces/CAPSTONE-1/modelR_model.h5"
+loaded_model = joblib.load(model_path)
+
+# Function to generate random values for all 6 axes
+def generate_random_values():
+    AccX = round(random.uniform(-10.0, 10.0), 10)
+    AccY = round(random.uniform(-10.0, 10.0), 10)
+    AccZ = round(random.uniform(-10.0, 10.0), 10)
+    GyroX = round(random.uniform(-5.0, 5.0), 10)
+    GyroY = round(random.uniform(-5.0, 5.0), 10)
+    GyroZ = round(random.uniform(-5.0, 5.0), 10)
+
+    return AccX, AccY, AccZ, GyroX, GyroY, GyroZ
+
+# Function to predict behavior based on generated values
+def predict_behavior(AccX, AccY, AccZ, GyroX, GyroY, GyroZ):
+    # Create a DataFrame with the input features
+    input_data = [[AccX, AccY, AccZ, GyroX, GyroY, GyroZ]]
+    input_df = pd.DataFrame(input_data, columns=['AccX', 'AccY', 'AccZ', 'GyroX', 'GyroY', 'GyroZ'])
+
+    # Use the loaded model for prediction
+    prediction = loaded_model.predict(input_df)
+
+    # Map the numerical class back to original labels
+    behavior_mapping = {1: 'AGGRESSIVE', 2: 'NORMAL', 3: 'SLOW'}
+    predicted_behavior = behavior_mapping[prediction[0]]
+
+    return predicted_behavior
+
+# Generate random values
+random_values = generate_random_values()
+
+# Use the prediction function for the generated values
+predicted_class = predict_behavior(*random_values)
+
+# Print the generated values and predicted class
+print(f"Generated values: {dict(zip(['AccX', 'AccY', 'AccZ', 'GyroX', 'GyroY', 'GyroZ'], random_values))}")
+print(f"Predicted class: {predicted_class}")
+ 
