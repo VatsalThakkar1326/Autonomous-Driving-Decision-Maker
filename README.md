@@ -31,13 +31,5 @@ Step 6: Generate Data Files
 The code will generate some data files in real time. You need to replace all the necessary paths with your own hardware system to ensure everything works smoothly.
 Please note that this is a general guide and might need to be adjusted based on your specific project and setup. Enjoy coding!
 
-## Contributors: 
-
-<span style="color:yellow">Vatsal Thakkar: Project Manager and Programming Logic Architect</span>  
-<span style="color:yellow">Dhruvi Kapadia: Software Programmer and Debugger</span>  
-<span style="color:yellow">Srushti Gupta: Software Programmer and Documentation Guru</span>  
-<span style="color:yellow">Manav Patel: Data Engineer and Coordinator</span>  
-<span style="color:yellow">Nishk Vaishnav: Data Engineer and Tester</span>  
-<span style="color:yellow">Megha: Compiler</span>
 
 
